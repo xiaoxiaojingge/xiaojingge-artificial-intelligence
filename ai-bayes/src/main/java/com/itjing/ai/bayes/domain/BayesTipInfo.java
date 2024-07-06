@@ -1,6 +1,7 @@
 package com.itjing.ai.bayes.domain;
 
 import com.itjing.ai.bayes.enums.BayesErrorModifierTypeEnum;
+import com.itjing.ai.bayes.enums.BayesTipInfoTypeEnum;
 
 /**
  * 贝叶斯提示信息
@@ -13,7 +14,7 @@ public class BayesTipInfo {
     /**
      * 提示类型
      */
-    private Integer type;
+    private BayesTipInfoTypeEnum type;
 
     /**
      * 实体信息
@@ -28,16 +29,16 @@ public class BayesTipInfo {
     public BayesTipInfo() {
     }
 
-    public BayesTipInfo(Integer type, String message) {
+    public BayesTipInfo(BayesTipInfoTypeEnum type, String message) {
         this.type = type;
         this.message = message;
     }
 
-    public Integer getType() {
+    public BayesTipInfoTypeEnum getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(BayesTipInfoTypeEnum type) {
         this.type = type;
     }
 

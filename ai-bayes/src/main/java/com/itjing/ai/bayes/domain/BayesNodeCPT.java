@@ -64,7 +64,7 @@ public class BayesNodeCPT {
      * @author xiaojingge
      * @date 2024/07/04
      */
-    public class CPT {
+    public static class CPT {
 
         /**
          * 父节点结合
@@ -107,7 +107,8 @@ public class BayesNodeCPT {
      * @author xiaojingge
      * @date 2024/07/04
      */
-    public class StateVal {
+    public static class StateVal {
+
         /**
          * 状态名称
          */
@@ -116,7 +117,20 @@ public class BayesNodeCPT {
         /**
          * 状态值
          */
-        private Integer value;
+        private Double value;
+
+        /**
+         * 所属节点索引
+         */
+        private Integer nodeIndex;
+
+        public StateVal() {
+        }
+
+        public StateVal(String name, Double value) {
+            this.name = name;
+            this.value = value;
+        }
 
         public String getName() {
             return name;
@@ -126,12 +140,20 @@ public class BayesNodeCPT {
             this.name = name;
         }
 
-        public Integer getValue() {
+        public Double getValue() {
             return value;
         }
 
-        public void setValue(Integer value) {
+        public void setValue(Double value) {
             this.value = value;
+        }
+
+        public Integer getNodeIndex() {
+            return nodeIndex;
+        }
+
+        public void setNodeIndex(Integer nodeIndex) {
+            this.nodeIndex = nodeIndex;
         }
 
         @Override
@@ -139,6 +161,7 @@ public class BayesNodeCPT {
             return "StateVal{" +
                     "name='" + name + '\'' +
                     ", value=" + value +
+                    ", nodeIndex=" + nodeIndex +
                     '}';
         }
     }
@@ -149,7 +172,8 @@ public class BayesNodeCPT {
      * @author xiaojingge
      * @date 2024/07/04
      */
-    public class OneCombin {
+    public static class OneCombin {
+
         /**
          * 父节点状态
          */
@@ -159,6 +183,14 @@ public class BayesNodeCPT {
          * 当前节点的状态参数和值
          */
         private List<StateVal> currNode;
+
+        public OneCombin() {
+        }
+
+        public OneCombin(List<StateVal> parentsStates, List<StateVal> currNode) {
+            this.parentsStates = parentsStates;
+            this.currNode = currNode;
+        }
 
         public List<StateVal> getParentsStates() {
             return parentsStates;

@@ -16,7 +16,7 @@ public interface BayesNodeTypeConstant {
     /**
      * 决策节点
      */
-    Integer NODE_DECISION_MAKING = 2;
+    Integer NODE_JUDGE = 2;
 
     /**
      * 效用节点

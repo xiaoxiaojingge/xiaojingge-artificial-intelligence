@@ -1,5 +1,7 @@
 package com.itjing.ai.bayes.domain;
 
+import java.util.List;
+
 /**
  * 贝叶斯-节点
  *
@@ -14,6 +16,11 @@ public class BayesNode {
     private Integer index;
 
     /**
+     * 是否有父节点
+     */
+    private Boolean haveFather;
+
+    /**
      * 节点类型
      */
     private Integer type;
@@ -23,19 +30,21 @@ public class BayesNode {
      */
     private String text;
 
+
     /**
-     * 父级节点
+     * 状态名称列表
      */
-    private Integer parent;
+    private List<String> stateNameList;
 
     public BayesNode() {
     }
 
-    public BayesNode(Integer index, Integer type, String text, Integer parent) {
+    public BayesNode(Integer index, Boolean haveFather, Integer type, String text, List<String> stateNameList) {
         this.index = index;
+        this.haveFather = haveFather;
         this.type = type;
         this.text = text;
-        this.parent = parent;
+        this.stateNameList = stateNameList;
     }
 
     public Integer getIndex() {
@@ -44,6 +53,14 @@ public class BayesNode {
 
     public void setIndex(Integer index) {
         this.index = index;
+    }
+
+    public Boolean getHaveFather() {
+        return haveFather;
+    }
+
+    public void setHaveFather(Boolean haveFather) {
+        this.haveFather = haveFather;
     }
 
     public Integer getType() {
@@ -62,21 +79,22 @@ public class BayesNode {
         this.text = text;
     }
 
-    public Integer getParent() {
-        return parent;
+    public List<String> getStateNameList() {
+        return stateNameList;
     }
 
-    public void setParent(Integer parent) {
-        this.parent = parent;
+    public void setStateNameList(List<String> stateNameList) {
+        this.stateNameList = stateNameList;
     }
 
     @Override
     public String toString() {
         return "BayesNode{" +
                 "index=" + index +
+                ", haveFather=" + haveFather +
                 ", type=" + type +
                 ", text='" + text + '\'' +
-                ", parent=" + parent +
+                ", stateNameList='" + stateNameList + '\'' +
                 '}';
     }
 }

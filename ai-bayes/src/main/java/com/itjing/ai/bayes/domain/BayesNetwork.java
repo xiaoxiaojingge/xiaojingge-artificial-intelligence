@@ -33,9 +33,10 @@ public class BayesNetwork {
     public BayesNetwork() {
     }
 
-    public BayesNetwork(List<BayesNode> nodes, List<BayesLink> links) {
+    public BayesNetwork(List<BayesNode> nodes, List<BayesLink> links, List<BayesNodeCPT> nodeCPTs) {
         this.nodes = nodes;
         this.links = links;
+        this.nodeCPTs = nodeCPTs;
     }
 
     public List<BayesNode> getNodes() {
