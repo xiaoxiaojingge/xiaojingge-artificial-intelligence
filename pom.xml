@@ -17,6 +17,8 @@
     <modules>
         <!-- 公共模块 -->
         <module>ai-common</module>
+        <module>ai-bayes</module>
+        <module>ai-bayes-bayesserver</module>
     </modules>
     <dependencyManagement>
         <dependencies>
