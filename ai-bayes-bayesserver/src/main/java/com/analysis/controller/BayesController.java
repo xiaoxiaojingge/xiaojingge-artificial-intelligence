@@ -1,6 +1,6 @@
-package com.bayesserver.controller;
+package com.analysis.controller;
 
-import com.bayesserver.util.BayesUtil;
+import com.analysis.util.BayesUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

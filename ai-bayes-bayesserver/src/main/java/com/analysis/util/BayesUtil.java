@@ -1,6 +1,10 @@
-package com.bayesserver.util;
+package com.analysis.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.bayesserver.*;
+import com.bayesserver.analysis.ParameterReference;
+import com.bayesserver.analysis.SensitivityFunctionOneWay;
+import com.bayesserver.analysis.SensitivityToParameters;
 import com.bayesserver.inference.*;
 
 import javax.xml.stream.XMLStreamException;
@@ -200,17 +204,37 @@ public class BayesUtil {
         State aState1 = new State("橙");
         State aState2 = new State("蓝");
         State aState3 = new State("红");
-        Node a = new Node("暴雨", aState1, aState2, aState3);
+
+        // Node a = new Node("暴雨", aState1, aState2, aState3);
+
+        Variable aVar = new Variable("暴雨", VariableValueType.DISCRETE, VariableKind.PROBABILITY);
+        aVar.getStates().add(aState1);
+        aVar.getStates().add(aState2);
+        aVar.getStates().add(aState3);
+        Node a = new Node(aVar);
+
 
         // b节点
         State bState1 = new State("大");
         State bState2 = new State("小");
-        Node b = new Node("冲击力大小", bState1, bState2);
+
+        // Node b = new Node("冲击力大小", bState1, bState2);
+
+        Variable bVar = new Variable("冲击力大小", VariableValueType.DISCRETE, VariableKind.PROBABILITY);
+        bVar.getStates().add(bState1);
+        bVar.getStates().add(bState2);
+        Node b = new Node(bVar);
 
         // c节点
         State cState1 = new State("是");
         State cState2 = new State("否");
-        Node c = new Node("泥石流", cState1, cState2);
+
+        // Node c = new Node("泥石流", cState1, cState2);
+
+        Variable cVar = new Variable("泥石流", VariableValueType.DISCRETE, VariableKind.PROBABILITY);
+        cVar.getStates().add(cState1);
+        cVar.getStates().add(cState2);
+        Node c = new Node(cVar);
 
         // 添加节点
         network.getNodes().add(a);
@@ -220,6 +244,10 @@ public class BayesUtil {
         // 添加连线
         network.getLinks().add(new Link(a, c));
         network.getLinks().add(new Link(b, c));
+
+        // 模型验证
+        // ValidationOptions validationOptions = new ValidationOptions();
+        // network.validate(validationOptions);
 
         // 添加条件概率
         Table tableA = a.newDistribution().getTable();
@@ -245,29 +273,57 @@ public class BayesUtil {
         QueryOutput queryOutput = factory.createQueryOutput();
 
         // 设置证据节点，即该状态概率为100%
-        inference.getEvidence().setState(aState1);
-
+        // inference.getEvidence().setState(aState1);
+        // inference.getEvidence().set(a, 1.0);
 
         Table queryA = new Table(a);
         inference.getQueryDistributions().add(queryA);
-        inference.query(queryOptions, queryOutput);
-        System.out.println(queryA.get(aState1));
-        System.out.println(queryA.get(aState2));
-
 
         Table queryB = new Table(b);
         inference.getQueryDistributions().add(queryB);
+
+        Table queryC = new Table(c);
+        inference.getQueryDistributions().add(queryC);
+
         inference.query(queryOptions, queryOutput);
+
+        System.out.println(queryA.get(aState1));
+        System.out.println(queryA.get(aState2));
+
         System.out.println(queryB.get(bState1));
         System.out.println(queryB.get(bState2));
 
-
-        // 查询节点c的概率
-        Table queryC = new Table(c);
-        inference.getQueryDistributions().add(queryC);
-        inference.query(queryOptions, queryOutput);
         System.out.println(queryC.get(cState1));
         System.out.println(queryC.get(cState2));
+
+
+        // 敏感性分析
+        // 证据对象
+        DefaultEvidence evidence = new DefaultEvidence(network);
+        SensitivityToParameters sensitivity = new SensitivityToParameters(network, factory);
+
+        // 可以变化的单个参数，参数节点
+        // 注意这里的 new State[]{aState1, bState1, cState1}，表明是个组合
+        // 即条件概率表中选定 aState1，bState1，cState1 的组合的概率的那个参数
+        ParameterReference parameter = new ParameterReference(c, new State[]{aState1, bState1, cState1});
+
+        SensitivityFunctionOneWay oneWay = sensitivity.oneWay(
+                evidence,
+                // 假设节点的状态
+                cState1,
+                parameter
+        );
+        // 以上代码表示 假设 cState1 ， ParameterReference 为变化参数，计算假设状态如何根据ParameterReference的更改而变化。
+
+        // System.out.println(StrUtil.format("Parameter value = {}", oneWay.getParameterValue()));
+        // System.out.println(StrUtil.format("Sensitivity value = {}", oneWay.getSensitivityValue()));
+        // System.out.println(StrUtil.format("P(Abnormal | e) = {}", oneWay.getProbabilityHypothesisGivenEvidence()));
+        // System.out.println(StrUtil.format("Alpha = {}", oneWay.getAlpha()));
+        // System.out.println(StrUtil.format("Beta = {}", oneWay.getBeta()));
+        // System.out.println(StrUtil.format("Delta = {}", oneWay.getDelta()));
+        // System.out.println(StrUtil.format("Gamma = {oneWay.Gamma}", oneWay.getGamma()));
+        // System.out.println(StrUtil.format("Eval(0.2) = {}", oneWay.evaluate(0.2)));
+        // System.out.println(StrUtil.format("Eval'(0.2) = {}", oneWay.evaluateDeriv(0.2)));
     }
 
     /**
@@ -357,37 +413,40 @@ public class BayesUtil {
 
         Table queryA = new Table(a);
         inference.getQueryDistributions().add(queryA);
-        inference.query(queryOptions, queryOutput);
-        System.out.println(queryA.get(aState1));
-        System.out.println(queryA.get(aState2));
 
         Table queryB = new Table(b);
         inference.getQueryDistributions().add(queryB);
-        inference.query(queryOptions, queryOutput);
-        System.out.println(queryB.get(bState1));
-        System.out.println(queryB.get(bState2));
-
 
         Table queryC = new Table(c);
         inference.getQueryDistributions().add(queryC);
-        inference.query(queryOptions, queryOutput);
-        System.out.println(queryC.get(cState1));
-        System.out.println(queryC.get(cState2));
 
         Table queryD = new Table(d);
         inference.getQueryDistributions().add(queryD);
+
+        Table queryE = new Table(e);
+
+        inference.getQueryDistributions().add(queryE);
+
         inference.query(queryOptions, queryOutput);
+
+        System.out.println(queryA.get(aState1));
+        System.out.println(queryA.get(aState2));
+
+        System.out.println(queryB.get(bState1));
+        System.out.println(queryB.get(bState2));
+
+        System.out.println(queryC.get(cState1));
+        System.out.println(queryC.get(cState2));
+
         System.out.println(queryD.get(dState1));
         System.out.println(queryD.get(dState2));
 
-        Table queryE = new Table(e);
-        inference.getQueryDistributions().add(queryE);
-        inference.query(queryOptions, queryOutput);
         System.out.println(queryE.get(eState1));
         System.out.println(queryE.get(eState2));
     }
 
     public static void main(String[] args) throws XMLStreamException, IOException, InconsistentEvidenceException {
-        alarmExample();
+        testExample();
+        // alarmExample();
     }
 }
