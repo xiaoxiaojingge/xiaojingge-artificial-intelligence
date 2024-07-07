@@ -10,74 +10,71 @@ import java.util.List;
  */
 public class BayesNetwork {
 
-    /**
-     * 节点
-     */
-    private List<BayesNode> nodes;
+	/**
+	 * 节点
+	 */
+	private List<BayesNode> nodes;
 
-    /**
-     * 关系
-     */
-    private List<BayesLink> links;
+	/**
+	 * 关系
+	 */
+	private List<BayesLink> links;
 
-    /**
-     * 节点的条件概率表
-     */
-    private List<BayesNodeCPT> nodeCPTs;
+	/**
+	 * 节点的条件概率表
+	 */
+	private List<BayesNodeCPT> nodeCPTs;
 
-    /**
-     * 提示信息
-     */
-    private List<BayesTipInfo> tipInfos;
+	/**
+	 * 提示信息
+	 */
+	private List<BayesTipInfo> tipInfos;
 
-    public BayesNetwork() {
-    }
+	public BayesNetwork() {
+	}
 
-    public BayesNetwork(List<BayesNode> nodes, List<BayesLink> links, List<BayesNodeCPT> nodeCPTs) {
-        this.nodes = nodes;
-        this.links = links;
-        this.nodeCPTs = nodeCPTs;
-    }
+	public BayesNetwork(List<BayesNode> nodes, List<BayesLink> links, List<BayesNodeCPT> nodeCPTs) {
+		this.nodes = nodes;
+		this.links = links;
+		this.nodeCPTs = nodeCPTs;
+	}
 
-    public List<BayesNode> getNodes() {
-        return nodes;
-    }
+	public List<BayesNode> getNodes() {
+		return nodes;
+	}
 
-    public void setNodes(List<BayesNode> nodes) {
-        this.nodes = nodes;
-    }
+	public void setNodes(List<BayesNode> nodes) {
+		this.nodes = nodes;
+	}
 
-    public List<BayesLink> getLinks() {
-        return links;
-    }
+	public List<BayesLink> getLinks() {
+		return links;
+	}
 
-    public void setLinks(List<BayesLink> links) {
-        this.links = links;
-    }
+	public void setLinks(List<BayesLink> links) {
+		this.links = links;
+	}
 
-    public List<BayesTipInfo> getTipInfos() {
-        return tipInfos;
-    }
+	public List<BayesTipInfo> getTipInfos() {
+		return tipInfos;
+	}
 
-    public void setTipInfos(List<BayesTipInfo> tipInfos) {
-        this.tipInfos = tipInfos;
-    }
+	public void setTipInfos(List<BayesTipInfo> tipInfos) {
+		this.tipInfos = tipInfos;
+	}
 
-    public List<BayesNodeCPT> getNodeCPTs() {
-        return nodeCPTs;
-    }
+	public List<BayesNodeCPT> getNodeCPTs() {
+		return nodeCPTs;
+	}
 
-    public void setNodeCPTs(List<BayesNodeCPT> nodeCPTs) {
-        this.nodeCPTs = nodeCPTs;
-    }
+	public void setNodeCPTs(List<BayesNodeCPT> nodeCPTs) {
+		this.nodeCPTs = nodeCPTs;
+	}
 
-    @Override
-    public String toString() {
-        return "BayesNetwork{" +
-                "nodes=" + nodes +
-                ", links=" + links +
-                ", nodeCPTs=" + nodeCPTs +
-                ", tipInfos=" + tipInfos +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "BayesNetwork{" + "nodes=" + nodes + ", links=" + links + ", nodeCPTs=" + nodeCPTs + ", tipInfos="
+				+ tipInfos + '}';
+	}
+
 }

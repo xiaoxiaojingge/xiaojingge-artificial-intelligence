@@ -10,31 +10,29 @@ import java.util.List;
  */
 public class BayesNodeEndValTable {
 
-    private Integer nodeIndex;
+	private Integer nodeIndex;
 
-    private List<Double> endValTable;
+	private List<Double> endValTable;
 
-    public Integer getNodeIndex() {
-        return nodeIndex;
-    }
+	public Integer getNodeIndex() {
+		return nodeIndex;
+	}
 
-    public void setNodeIndex(Integer nodeIndex) {
-        this.nodeIndex = nodeIndex;
-    }
+	public void setNodeIndex(Integer nodeIndex) {
+		this.nodeIndex = nodeIndex;
+	}
 
-    public List<Double> getEndValTable() {
-        return endValTable;
-    }
+	public List<Double> getEndValTable() {
+		return endValTable;
+	}
 
-    public void setEndValTable(List<Double> endValTable) {
-        this.endValTable = endValTable;
-    }
+	public void setEndValTable(List<Double> endValTable) {
+		this.endValTable = endValTable;
+	}
 
-    @Override
-    public String toString() {
-        return "BayesNodeEndValTable{" +
-                "nodeIndex=" + nodeIndex +
-                ", endValTable=" + endValTable +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "BayesNodeEndValTable{" + "nodeIndex=" + nodeIndex + ", endValTable=" + endValTable + '}';
+	}
+
 }

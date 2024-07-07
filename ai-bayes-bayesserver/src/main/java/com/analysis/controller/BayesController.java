@@ -18,9 +18,10 @@ import java.io.IOException;
 @RequestMapping("/bayes")
 public class BayesController {
 
-    @GetMapping("/test")
-    public String test(String fileName) throws XMLStreamException, IOException {
-        BayesUtil.saveBayes(fileName);
-        return "success";
-    }
+	@GetMapping("/test")
+	public String test(String fileName) throws XMLStreamException, IOException {
+		BayesUtil.saveBayes(fileName);
+		return "success";
+	}
+
 }

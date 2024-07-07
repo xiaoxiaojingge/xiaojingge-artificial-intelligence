@@ -8,18 +8,19 @@ package com.itjing.ai.bayes.constant;
  */
 public interface BayesNodeTypeConstant {
 
-    /**
-     * 机会节点
-     */
-    Integer NODE_OPPORTUNITY = 1;
+	/**
+	 * 机会节点
+	 */
+	Integer NODE_OPPORTUNITY = 1;
 
-    /**
-     * 决策节点
-     */
-    Integer NODE_JUDGE = 2;
+	/**
+	 * 决策节点
+	 */
+	Integer NODE_JUDGE = 2;
 
-    /**
-     * 效用节点
-     */
-    Integer NODE_UTILITY = 3;
+	/**
+	 * 效用节点
+	 */
+	Integer NODE_UTILITY = 3;
+
 }

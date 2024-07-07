@@ -11,59 +11,57 @@ import com.itjing.ai.bayes.enums.BayesTipInfoTypeEnum;
  */
 public class BayesTipInfo {
 
-    /**
-     * 提示类型
-     */
-    private BayesTipInfoTypeEnum type;
+	/**
+	 * 提示类型
+	 */
+	private BayesTipInfoTypeEnum type;
 
-    /**
-     * 实体信息
-     */
-    private String message;
+	/**
+	 * 实体信息
+	 */
+	private String message;
 
-    /**
-     * 错误修改类型
-     */
-    private BayesErrorModifierTypeEnum modifierType;
+	/**
+	 * 错误修改类型
+	 */
+	private BayesErrorModifierTypeEnum modifierType;
 
-    public BayesTipInfo() {
-    }
+	public BayesTipInfo() {
+	}
 
-    public BayesTipInfo(BayesTipInfoTypeEnum type, String message) {
-        this.type = type;
-        this.message = message;
-    }
+	public BayesTipInfo(BayesTipInfoTypeEnum type, String message) {
+		this.type = type;
+		this.message = message;
+	}
 
-    public BayesTipInfoTypeEnum getType() {
-        return type;
-    }
+	public BayesTipInfoTypeEnum getType() {
+		return type;
+	}
 
-    public void setType(BayesTipInfoTypeEnum type) {
-        this.type = type;
-    }
+	public void setType(BayesTipInfoTypeEnum type) {
+		this.type = type;
+	}
 
-    public String getMessage() {
-        return message;
-    }
+	public String getMessage() {
+		return message;
+	}
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
-    public BayesErrorModifierTypeEnum getModifierType() {
-        return modifierType;
-    }
+	public BayesErrorModifierTypeEnum getModifierType() {
+		return modifierType;
+	}
 
-    public void setModifierType(BayesErrorModifierTypeEnum modifierType) {
-        this.modifierType = modifierType;
-    }
+	public void setModifierType(BayesErrorModifierTypeEnum modifierType) {
+		this.modifierType = modifierType;
+	}
 
-    @Override
-    public String toString() {
-        return "BayesTipInfo{" +
-                "type=" + type +
-                ", message='" + message + '\'' +
-                ", modifierType=" + modifierType +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "BayesTipInfo{" + "type=" + type + ", message='" + message + '\'' + ", modifierType=" + modifierType
+				+ '}';
+	}
+
 }
