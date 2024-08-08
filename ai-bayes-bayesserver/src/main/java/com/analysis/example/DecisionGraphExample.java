@@ -9,8 +9,7 @@ package com.analysis.example;
 import com.bayesserver.*;
 import com.bayesserver.inference.*;
 
-public class DecisionGraphExample
-{
+public class DecisionGraphExample {
     public static void main(String[] args) throws Exception {
 
         // In this example we will first construct the well known
@@ -111,7 +110,7 @@ public class DecisionGraphExample
 
         new TableIterator(
                 tableTestResult,
-                new Node[] { nodeOil, nodeTest, nodeTestResult }
+                new Node[]{nodeOil, nodeTest, nodeTestResult}
         ).copyFrom(
                 new double[]{
                         0.1, 0.3, 0.6, third, third, third, 0.3, 0.4, 0.3, third, third, third, 0.5, 0.4, 0.1, third, third, third});
@@ -131,7 +130,7 @@ public class DecisionGraphExample
         // In fact, if you learn the distributions from data they will typically have
         // non-zero variances.
 
-        CLGaussian gaussianDrillUtility = (CLGaussian)nodeDrillUtility.newDistribution();
+        CLGaussian gaussianDrillUtility = (CLGaussian) nodeDrillUtility.newDistribution();
         gaussianDrillUtility.setMean(drillUtility, -70.0, oilDry, drillYes);
         gaussianDrillUtility.setMean(drillUtility, 0.0, oilDry, drillNo);
         gaussianDrillUtility.setMean(drillUtility, 50.0, oilWet, drillYes);
@@ -140,14 +139,14 @@ public class DecisionGraphExample
         gaussianDrillUtility.setMean(drillUtility, 0.0, oilSoaking, drillNo);
         nodeDrillUtility.setDistribution(gaussianDrillUtility);
 
-        CLGaussian gaussianTestUtility = (CLGaussian)nodeTestUtility.newDistribution();
+        CLGaussian gaussianTestUtility = (CLGaussian) nodeTestUtility.newDistribution();
         gaussianTestUtility.setMean(testUtility, -10.0, testYes);
         gaussianTestUtility.setMean(testUtility, 0.0, testNo);
         nodeTestUtility.setDistribution(gaussianTestUtility);
 
         // The MEU utility defines how the utilities are combined.
         // In this example we just add them, by giving each parent a weight of 1
-        CLGaussian gaussianMeu = (CLGaussian)nodeMeu.newDistribution();
+        CLGaussian gaussianMeu = (CLGaussian) nodeMeu.newDistribution();
         gaussianMeu.setWeight(meu, drillUtility, 1.0);
         gaussianMeu.setWeight(meu, testUtility, 1.0);
         nodeMeu.setDistribution(gaussianMeu);
@@ -169,13 +168,15 @@ public class DecisionGraphExample
         Table queryOil = new Table(oil);    // query a probability variable
         Table queryDrill = new Table(drill);  // query a decision variable
         CLGaussian queryMeu = new CLGaussian(meu); // get the Maximum Expected Utility (MEU)
-        CLGaussian queryJoint = new CLGaussian(new Variable[] { meu, oil });   // we can also query joint distributions.
+        CLGaussian queryJoint_meu_oil = new CLGaussian(new Variable[]{meu, oil});   // we can also query joint distributions.
+        CLGaussian queryJoint_meu_testResult = new CLGaussian(new Variable[]{meu, testResult});   // we can also query joint distributions.
 
         QueryDistributionCollection queryDistributions = inference.getQueryDistributions();
         queryDistributions.add(queryOil);
         queryDistributions.add(queryDrill);
         queryDistributions.add(queryMeu);
-        queryDistributions.add(queryJoint);
+        queryDistributions.add(queryJoint_meu_oil);
+        queryDistributions.add(queryJoint_meu_testResult);
 
         // If we have any evidence to set use
         // inference.Evidence.Set or inference.Evidence.SetState
@@ -192,10 +193,26 @@ public class DecisionGraphExample
         double drillYesValue = queryDrill.get(drillYes);
         System.out.println(String.format("Drill? = Yes\t%s", drillYesValue));   // expected 0.59
 
-        double meuOilDry = queryJoint.getMean(meu, oilDry);
+        double meuOilDry = queryJoint_meu_oil.getMean(meu, oilDry);
         System.out.println(String.format("MEU Oil=Dry\t%s", meuOilDry));   // expected -38.0
 
 
+        for (State state : oil.getStates()) {
+            double weight = queryJoint_meu_oil.getTable().get(state);
+            double mean = queryJoint_meu_oil.getMean(meu, state);
+            double variance = queryJoint_meu_oil.getVariance(meu, state);
+            System.out.println(state);
+            System.out.println(String.format("Weight %f, mean %f, variance %f", weight, mean, variance));
 
+        }
+
+        for (State state : testResult.getStates()) {
+            double weight = queryJoint_meu_testResult.getTable().get(state);
+            double mean = queryJoint_meu_testResult.getMean(meu, state);
+            double variance = queryJoint_meu_testResult.getVariance(meu, state);
+            System.out.println(state);
+            System.out.println(String.format("Weight %f, mean %f, variance %f", weight, mean, variance));
+
+        }
     }
 }
