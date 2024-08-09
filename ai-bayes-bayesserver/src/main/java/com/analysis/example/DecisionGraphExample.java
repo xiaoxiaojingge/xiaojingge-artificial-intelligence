@@ -170,6 +170,8 @@ public class DecisionGraphExample {
         CLGaussian queryMeu = new CLGaussian(meu); // get the Maximum Expected Utility (MEU)
         CLGaussian queryJoint_meu_oil = new CLGaussian(new Variable[]{meu, oil});   // we can also query joint distributions.
         CLGaussian queryJoint_meu_testResult = new CLGaussian(new Variable[]{meu, testResult});   // we can also query joint distributions.
+        CLGaussian queryJoint_meu_test = new CLGaussian(new Variable[]{meu, test});   // we can also query joint distributions.
+        CLGaussian queryJoint_meu_drill = new CLGaussian(new Variable[]{meu, drill, drillUtility});   // we can also query joint distributions.
 
         QueryDistributionCollection queryDistributions = inference.getQueryDistributions();
         queryDistributions.add(queryOil);
@@ -177,6 +179,8 @@ public class DecisionGraphExample {
         queryDistributions.add(queryMeu);
         queryDistributions.add(queryJoint_meu_oil);
         queryDistributions.add(queryJoint_meu_testResult);
+        queryDistributions.add(queryJoint_meu_test);
+        queryDistributions.add(queryJoint_meu_drill);
 
         // If we have any evidence to set use
         // inference.Evidence.Set or inference.Evidence.SetState
@@ -210,6 +214,24 @@ public class DecisionGraphExample {
             double weight = queryJoint_meu_testResult.getTable().get(state);
             double mean = queryJoint_meu_testResult.getMean(meu, state);
             double variance = queryJoint_meu_testResult.getVariance(meu, state);
+            System.out.println(state);
+            System.out.println(String.format("Weight %f, mean %f, variance %f", weight, mean, variance));
+
+        }
+
+        for (State state : test.getStates()) {
+            double weight = queryJoint_meu_test.getTable().get(state);
+            double mean = queryJoint_meu_test.getMean(meu, state);
+            double variance = queryJoint_meu_test.getVariance(meu, state);
+            System.out.println(state);
+            System.out.println(String.format("Weight %f, mean %f, variance %f", weight, mean, variance));
+
+        }
+
+        for (State state : drill.getStates()) {
+            double weight = queryJoint_meu_drill.getTable().get(state);
+            double mean = queryJoint_meu_drill.getMean(meu, state);
+            double variance = queryJoint_meu_drill.getVariance(meu, state);
             System.out.println(state);
             System.out.println(String.format("Weight %f, mean %f, variance %f", weight, mean, variance));
 
